@@ -7,18 +7,21 @@ class AuthorRepository {
       "Author",
       "first",
       "email@email.com",
+      "1234",
       DateFormat.yMd().format(DateTime.now()),
     ),
     Author(
       "Author",
       "second",
       "email@email.com",
+      "1234",
       DateFormat.yMd().format(DateTime.now()),
     ),
     Author(
       "Author",
       "third",
       "email@email.com",
+      "1234",
       DateFormat.yMd().format(DateTime.now()),
     ),
   ];
