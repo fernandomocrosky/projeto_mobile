@@ -4,14 +4,14 @@ import "package:intl/intl.dart";
 import 'package:projeto_mobile/Model/author.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 
-class SingnUpForm extends StatefulWidget {
-  const SingnUpForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<SingnUpForm> createState() => _SingnUpFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SingnUpFormState extends State<SingnUpForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _form = GlobalKey<FormState>();
 
   final _firstName = TextEditingController();
@@ -127,7 +127,6 @@ class _SingnUpFormState extends State<SingnUpForm> {
                     prefixIcon: Icon(Icons.key),
                     suffix: Text("Your password"),
                   ),
-                  keyboardType: TextInputType.visiblePassword,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password cannot be empty";

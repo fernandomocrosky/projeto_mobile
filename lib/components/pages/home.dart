@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_mobile/components/fictionCard.dart';
 import 'package:projeto_mobile/components/fictionList.dart';
+import 'package:projeto_mobile/components/pages/signin_form.dart';
 import 'package:projeto_mobile/components/pages/singup_form.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +12,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   _showSignUpForm() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => SingnUpForm()));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpForm()));
+  }
+
+  _showSignInForm() {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => SignInForm()));
   }
 
   @override
@@ -22,7 +26,7 @@ class _HomeState extends State<Home> {
         title: Text("Fictions List"),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: _showSignInForm,
             child: Text(
               "Sign in",
               style: TextStyle(
