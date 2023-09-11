@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_mobile/components/fictionList.dart';
+import 'package:projeto_mobile/components/pages/new_fiction_form.dart';
 import 'package:projeto_mobile/components/pages/signin_form.dart';
 import 'package:projeto_mobile/components/pages/singup_form.dart';
 
@@ -17,6 +18,10 @@ class _HomeState extends State<Home> {
 
   _showSignInForm() {
     Navigator.push(context, MaterialPageRoute(builder: (_) => SignInForm()));
+  }
+
+  _addFiction() {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => NewFictionForm()));
   }
 
   @override
@@ -45,7 +50,7 @@ class _HomeState extends State<Home> {
       ),
       body: FictionList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _addFiction,
         child: Icon(Icons.add),
       ),
     );
