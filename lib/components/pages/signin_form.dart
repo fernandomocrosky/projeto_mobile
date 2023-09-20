@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_mobile/Model/author.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 
 class SignInForm extends StatefulWidget {
@@ -16,15 +17,14 @@ class _SignInFormState extends State<SignInForm> {
 
   _signIn() {
     if (_form.currentState!.validate()) {
-      final user = AuthorRepository.authors
-          .firstWhere((author) => author.email == _email.text);
-      if (user != null) {
-        if (_password.text == user.password) {
-          print("logado");
+      final Author? author =
+          AuthorRepository.authors.firstWhere((a) => a.email == _email.text);
+      if (author != null) {
+        if (_password.text == author.password) {
           setState(() {
             checkPassword = true;
           });
-          Navigator.pop(context);
+          Navigator.of(context).pop();
         } else {
           setState(() {
             checkPassword = false;
@@ -63,6 +63,8 @@ class _SignInFormState extends State<SignInForm> {
                       checkPassword = true;
                     });
                     return "Email or password invalid";
+                  } else {
+                    return null;
                   }
                 },
               ),
@@ -79,6 +81,8 @@ class _SignInFormState extends State<SignInForm> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Password cannot be empty";
+                  } else {
+                    return null;
                   }
                 },
               ),

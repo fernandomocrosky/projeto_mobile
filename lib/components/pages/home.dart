@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_mobile/components/fictionList.dart';
+import 'package:projeto_mobile/Model/author.dart';
+import 'package:projeto_mobile/Model/fiction.dart';
+import 'package:projeto_mobile/components/fiction_list.dart';
+import 'package:projeto_mobile/components/pages/add_fiction_form.dart';
 import 'package:projeto_mobile/components/pages/signin_form.dart';
 import 'package:projeto_mobile/components/pages/singup_form.dart';
+import 'package:projeto_mobile/repositories/author_repository.dart';
+import 'package:projeto_mobile/repositories/fiction_repository.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,12 +16,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<Fiction> fictions = FictionRepository.fictions;
+  final List<Author> authors = AuthorRepository.authors;
+
   _showSignUpForm() {
     Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpForm()));
   }
 
   _showSignInForm() {
     Navigator.push(context, MaterialPageRoute(builder: (_) => SignInForm()));
+  }
+
+  _showAddFictionForm() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => AddFictionForm(
+                  addFiction: addFiction,
+                )));
+  }
+
+  addFiction(final String title, final String description) {
+    setState(() {
+      fictions.add(Fiction(
+          title, description, 10.0, "assets/images/default.jpg", authors[0]));
+    });
   }
 
   @override
@@ -43,9 +67,9 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: FictionList(),
+      body: FictionList(fictions: fictions),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _showAddFictionForm,
         child: Icon(Icons.add),
       ),
     );

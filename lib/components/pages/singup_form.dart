@@ -22,7 +22,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   _singUp() {
     if (_form.currentState!.validate()) {
-      Author newAuthor = new Author(
+      Author newAuthor = Author(
         _firstName.text,
         _lastName.text,
         _email.text,
@@ -77,6 +77,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       return "First name cannot be empty";
                     } else if (value.length < 3) {
                       return "First name must be 3 or more characters long";
+                    } else {
+                      return null;
                     }
                   },
                 ),
@@ -98,6 +100,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       return "Last name cannot be empty";
                     } else if (value.length < 3) {
                       return "Last name must be 3 or more characters long";
+                    } else {
+                      return null;
                     }
                   },
                 ),
@@ -114,6 +118,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Email cannot be empty";
+                    } else {
+                      return null;
                     }
                   },
                 ),
@@ -130,11 +136,13 @@ class _SignUpFormState extends State<SignUpForm> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password cannot be empty";
+                    } else {
+                      return null;
                     }
                   },
                 ),
                 SizedBox(height: 20),
-                Container(
+                SizedBox(
                   height: 80,
                   width: 200,
                   child: TextFormField(
@@ -151,6 +159,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Birth cannot be empty";
+                      } else {
+                        return null;
                       }
                     },
                   ),
