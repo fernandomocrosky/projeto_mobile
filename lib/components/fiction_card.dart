@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_mobile/Model/fiction.dart';
+import 'package:projeto_mobile/components/pages/fiction_page.dart';
 
 class FictionCard extends StatelessWidget {
   const FictionCard({super.key, required this.fiction});
@@ -17,14 +18,17 @@ class FictionCard extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-            fiction.name,
+            fiction.title,
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 15),
             child: IconButton(
               icon: Image.asset(fiction.image),
               iconSize: 200,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => FictionPage(fiction: fiction)));
+              },
             ),
           ),
           Text(fiction.description),

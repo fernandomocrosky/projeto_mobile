@@ -1,16 +1,15 @@
 # projeto_mobile
 
-A new Flutter project.
+Projeto mobile em flutter da disciplina de Programação de dispositivos mobile, Universidade Tecnológica Federal do Paraná
 
-## Getting Started
+## Autores
 
-This project is a starting point for a Flutter application.
+Fernando Bismaia Mocrosky, fmocrosky@alunos.utfpr.edu.br
 
-A few resources to get you started if this is your first Flutter project:
+## Objetivo do projeto
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Este projeto tem como objetivo a criação de um aplicativo mobile, será um aplicativo onde o usuário poderá ler suas histórias ou fictions, criar novas histórias, comentar nos capitulos, além de poder disponibilizar suas redes de forma gratuita como Patreon, Linkedin, Coffe entre outros.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Instalação
+
+Basta realizar o comando git clone, caso o aplicativo não esteja rodando, tente ralizar o comando flutter clean e em seguida o comando flutter pub get.
