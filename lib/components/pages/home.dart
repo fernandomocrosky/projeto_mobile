@@ -38,10 +38,16 @@ class _HomeState extends State<Home> {
 
   addFiction(final String title, final String description) {
     setState(() {
-      fictions.add(Fiction(
-          title, description, 10.0, "assets/images/default.jpg", authors[0]));
+      fictions.add(Fiction(title, description, 10.0,
+          "assets/images/default.jpg", authors[0], []));
     });
   }
+
+ addChapter(
+      final int id, final int number, final String title, final String text) {
+    setState(() {
+      widget.fiction.chapters.add(Chapter(id, number, title, text));
+    });
 
   @override
   Widget build(BuildContext context) {
