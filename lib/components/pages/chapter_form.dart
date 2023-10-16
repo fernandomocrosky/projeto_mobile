@@ -19,8 +19,7 @@ class _ChapterFormState extends State<ChapterForm> {
     if (_form.currentState!.validate()) {
       widget.addChapter(
         widget.id,
-        "Chapter ${widget.id}",
-        _title.text,
+        "Chapter ${widget.id + 1}: ${_title.text}",
         _text.text,
       );
       Navigator.of(context).pop();

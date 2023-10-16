@@ -24,10 +24,9 @@ class _FictionPageState extends State<FictionPage> {
     );
   }
 
-  addChapter(
-      final int id, final int number, final String title, final String text) {
+  addChapter(final int id, final String title, final String text) {
     setState(() {
-      widget.fiction.chapters.add(Chapter(id, number, title, text));
+      widget.fiction.chapters.add(Chapter(id, title, text));
     });
   }
 

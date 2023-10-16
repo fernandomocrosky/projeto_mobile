@@ -6,8 +6,8 @@ class FictionRepository {
   static List<Fiction> fictions = [
     Fiction("title", "This is a fiction about...", 5.0,
         "assets/images/default.jpg", AuthorRepository.authors[0], [
-      Chapter(1, 1, "Chapter 1", "Once upon a time"),
-      Chapter(2, 2, "Chapter 2", "Twice upon a time")
+      Chapter(1, "Chapter 1", "Once upon a time"),
+      Chapter(2, "Chapter 2", "Twice upon a time")
     ]),
     Fiction(
       "title #2",

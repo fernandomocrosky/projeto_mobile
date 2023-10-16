@@ -43,12 +43,6 @@ class _HomeState extends State<Home> {
     });
   }
 
- addChapter(
-      final int id, final int number, final String title, final String text) {
-    setState(() {
-      widget.fiction.chapters.add(Chapter(id, number, title, text));
-    });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
