@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import "package:intl/intl.dart";
 import 'package:projeto_mobile/Model/author.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:collection/collection.dart";
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -20,16 +22,25 @@ class _SignUpFormState extends State<SignUpForm> {
   final _birth = TextEditingController();
   final _password = TextEditingController();
 
-  _singUp() {
+  _singUp() async {
     if (_form.currentState!.validate()) {
-      Author newAuthor = Author(
-        _firstName.text,
-        _lastName.text,
-        _email.text,
-        _password.text,
-        _birth.text,
-      );
-      AuthorRepository.authors.add(newAuthor);
+      try {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: _email.text, password: _password.text);
+        if (credential.user != null) {
+          AuthorRepository.authors.add(Author(_firstName.text, _lastName.text,
+              _email.text, _password.text, _birth.text));
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "weak-password") {
+          print("the password is too weak");
+        } else if (e.code == "email-already-in-use") {
+          print("The account already exists for that email");
+        }
+      } catch (e) {
+        print(e);
+      }
       Navigator.pop(context);
     }
   }
@@ -116,8 +127,12 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
+                    final Author? author = AuthorRepository.authors
+                        .firstWhereOrNull((element) => element.email == value);
                     if (value!.isEmpty) {
                       return "Email cannot be empty";
+                    } else if (author != null) {
+                      return "Email already in use";
                     } else {
                       return null;
                     }
@@ -136,6 +151,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password cannot be empty";
+                    } else if (value.length < 6) {
+                      return "Password must have at least 6 characters";
                     } else {
                       return null;
                     }
