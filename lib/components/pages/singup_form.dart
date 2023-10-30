@@ -5,6 +5,8 @@ import 'package:projeto_mobile/Model/author.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 import "package:firebase_auth/firebase_auth.dart";
 import "package:collection/collection.dart";
+import 'package:projeto_mobile/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -22,7 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _birth = TextEditingController();
   final _password = TextEditingController();
 
-  _singUp() async {
+  _singUp(auth) async {
     if (_form.currentState!.validate()) {
       try {
         final credential = await FirebaseAuth.instance
@@ -31,6 +33,7 @@ class _SignUpFormState extends State<SignUpForm> {
         if (credential.user != null) {
           AuthorRepository.authors.add(Author(_firstName.text, _lastName.text,
               _email.text, _password.text, _birth.text));
+          auth.login(_email.text, _password.text);
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == "weak-password") {
@@ -61,6 +64,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Center(child: Text("Sign Up")),
@@ -184,7 +188,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                    onPressed: _singUp,
+                    onPressed: () => _singUp(auth),
                     child: Container(
                       padding: EdgeInsets.all(15),
                       child: Row(

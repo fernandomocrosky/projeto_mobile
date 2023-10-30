@@ -7,6 +7,7 @@ import 'package:projeto_mobile/components/pages/signin_form.dart';
 import 'package:projeto_mobile/components/pages/singup_form.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 import 'package:projeto_mobile/repositories/fiction_repository.dart';
+import 'package:projeto_mobile/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -38,28 +39,43 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     fictions = Provider.of<FictionRepository>(context);
+    AuthService auth = Provider.of<AuthService>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Fictions List"),
-        actions: [
-          TextButton(
-            onPressed: _showSignInForm,
-            child: Text(
-              "Sign in",
-              style: TextStyle(
-                  fontSize: 15, color: Theme.of(context).secondaryHeaderColor),
-            ),
-          ),
-          TextButton(
-            onPressed: _showSignUpForm,
-            child: Text(
-              "Sign Up",
-              style: TextStyle(
-                  fontSize: 15, color: Theme.of(context).secondaryHeaderColor),
-            ),
-          ),
-        ],
+        actions: (auth.user != null)
+            ? [
+                TextButton(
+                  onPressed: _showSignInForm,
+                  child: Text(
+                    "Sign off",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).secondaryHeaderColor),
+                  ),
+                ),
+              ]
+            : [
+                TextButton(
+                  onPressed: _showSignInForm,
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).secondaryHeaderColor),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _showSignUpForm,
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).secondaryHeaderColor),
+                  ),
+                ),
+              ],
       ),
       body: FictionList(fictions: fictions.fictions),
       floatingActionButton: FloatingActionButton(
