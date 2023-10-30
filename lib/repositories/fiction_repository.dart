@@ -1,9 +1,12 @@
+import 'dart:collection';
+
+import 'package:flutter/material.dart';
 import 'package:projeto_mobile/Model/chapter.dart';
 import 'package:projeto_mobile/Model/fiction.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 
-class FictionRepository {
-  static List<Fiction> fictions = [
+class FictionRepository extends ChangeNotifier {
+  static final List<Fiction> _fictions = [
     Fiction("title", "This is a fiction about...", 5.0,
         "assets/images/default.jpg", AuthorRepository.authors[0], [
       Chapter(1, "Chapter 1", "Once upon a time"),
@@ -18,4 +21,29 @@ class FictionRepository {
       [],
     ),
   ];
+
+  List<Fiction> get fictions => _fictions;
+
+  addChapter(Chapter chapter, Fiction fiction) {
+    _fictions.forEach((f) {
+      if (f == fiction) {
+        fiction.chapters.add(chapter);
+        return;
+      }
+    });
+    notifyListeners();
+  }
+
+  saveAll(List<Fiction> fictions) {
+    fictions.forEach((fiction) {
+      if (!_fictions.contains(fiction)) _fictions.add(fiction);
+    });
+
+    notifyListeners();
+  }
+
+  remove(Fiction fiction) {
+    _fictions.remove(fiction);
+    notifyListeners();
+  }
 }

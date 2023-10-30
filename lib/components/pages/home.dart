@@ -7,6 +7,7 @@ import 'package:projeto_mobile/components/pages/signin_form.dart';
 import 'package:projeto_mobile/components/pages/singup_form.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 import 'package:projeto_mobile/repositories/fiction_repository.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Fiction> fictions = FictionRepository.fictions;
+  late FictionRepository fictions;
   final List<Author> authors = AuthorRepository.authors;
 
   _showSignUpForm() {
@@ -29,22 +30,15 @@ class _HomeState extends State<Home> {
 
   _showAddFictionForm() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => AddFictionForm(
-                  addFiction: addFiction,
-                )));
-  }
-
-  addFiction(final String title, final String description) {
-    setState(() {
-      fictions.add(Fiction(title, description, 10.0,
-          "assets/images/default.jpg", authors[0], []));
-    });
+      context,
+      MaterialPageRoute(builder: (_) => AddFictionForm()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    fictions = Provider.of<FictionRepository>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Fictions List"),
@@ -67,7 +61,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: FictionList(fictions: fictions),
+      body: FictionList(fictions: fictions.fictions),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddFictionForm,
         child: Icon(Icons.add),

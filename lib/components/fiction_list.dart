@@ -11,7 +11,7 @@ class FictionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: FictionRepository.fictions.length,
+        itemCount: fictions.length,
         itemBuilder: (_, index) {
           return FictionCard(fiction: fictions[index]);
         });

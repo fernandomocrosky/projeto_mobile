@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projeto_mobile/Model/chapter.dart';
 import 'package:projeto_mobile/Model/fiction.dart';
 import 'package:projeto_mobile/components/pages/chapter_form.dart';
+import 'package:projeto_mobile/repositories/fiction_repository.dart';
+import 'package:provider/provider.dart';
 
 class FictionPage extends StatefulWidget {
   const FictionPage({super.key, required this.fiction});
@@ -17,8 +19,8 @@ class _FictionPageState extends State<FictionPage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ChapterForm(
+          fiction: widget.fiction,
           id: widget.fiction.chapters.length,
-          addChapter: addChapter,
         ),
       ),
     );
@@ -32,23 +34,28 @@ class _FictionPageState extends State<FictionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final FictionRepository fictionList =
+        Provider.of<FictionRepository>(context);
+
+    Fiction fiction =
+        fictionList.fictions.firstWhere((fic) => fic == widget.fiction);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(widget.fiction.title)),
+        title: Center(child: Text(fiction.title)),
       ),
       body: (widget.fiction.chapters.isNotEmpty)
           ? ListView.separated(
               itemBuilder: (_, index) => ListTile(
                   title: TextButton(
                 child: Text(
-                  widget.fiction.chapters[index].title,
+                  fiction.chapters[index].title,
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.normal),
                 ),
                 onPressed: () {},
               )),
               separatorBuilder: (_, index) => Divider(),
-              itemCount: widget.fiction.chapters.length,
+              itemCount: fiction.chapters.length,
             )
           : Padding(
               padding: const EdgeInsets.only(top: 20),
