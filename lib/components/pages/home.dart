@@ -40,14 +40,13 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     fictions = Provider.of<FictionRepository>(context);
     AuthService auth = Provider.of<AuthService>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Fictions List"),
         actions: (auth.user != null)
             ? [
                 TextButton(
-                  onPressed: _showSignInForm,
+                  onPressed: auth.logoff,
                   child: Text(
                     "Sign off",
                     style: TextStyle(

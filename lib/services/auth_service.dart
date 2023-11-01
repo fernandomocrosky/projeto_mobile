@@ -12,15 +12,20 @@ class AuthService extends ChangeNotifier {
 
   _authCheck() {
     _auth.authStateChanges().listen((User? user) {
-      user = (user == null) ? null : user;
+      this.user = (user == null) ? null : user;
       isLoading = false;
       notifyListeners();
     });
   }
 
   login(String email, String password) async {
-    final UserCredential = await _auth.signInWithEmailAndPassword(
+    final UserCredential credential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
+    notifyListeners();
+  }
+
+  logoff() async {
+    await _auth.signOut();
     notifyListeners();
   }
 }

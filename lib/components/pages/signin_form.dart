@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_mobile/Model/author.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
+import 'package:projeto_mobile/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -15,27 +17,16 @@ class _SignInFormState extends State<SignInForm> {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
-  _signIn() {
+  _signIn(auth) {
     if (_form.currentState!.validate()) {
-      final Author? author =
-          AuthorRepository.authors.firstWhere((a) => a.email == _email.text);
-      if (author != null) {
-        if (_password.text == author.password) {
-          setState(() {
-            checkPassword = true;
-          });
-          Navigator.of(context).pop();
-        } else {
-          setState(() {
-            checkPassword = false;
-          });
-        }
-      }
+      auth.login(_email.text, _password.text);
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Sign In")),
@@ -88,7 +79,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: _signIn,
+                  onPressed: () => _signIn(auth),
                   child: Container(
                     padding: EdgeInsets.all(15),
                     child: Row(
