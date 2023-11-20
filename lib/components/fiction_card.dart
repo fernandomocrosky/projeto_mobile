@@ -23,7 +23,7 @@ class FictionCard extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 15),
             child: IconButton(
-              icon: Image.asset(fiction.image),
+              icon: Image.network(fiction.image),
               iconSize: 200,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -32,7 +32,7 @@ class FictionCard extends StatelessWidget {
             ),
           ),
           Text(fiction.description),
-          Text("${fiction.author.firstName} ${fiction.author.lastName}"),
+          Text("${fiction.author}"),
           Text(fiction.grade.toString()),
         ],
       ),

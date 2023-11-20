@@ -10,15 +10,16 @@ mongoose
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 const db = require("./model/FictionModel");
 
 const newFiction = {
-    title: "Fiction 2",
-    description: "Ola sou outra fiction",
-    image: "./images/images.png",
+    title: "Fiction 1",
+    description: "Ola sou uma fiction",
+    image: "http://10.0.2.2/images/images.jpg",
     grade: 0.0,
-    author: "Author teste 2",
+    author: "Author teste 1",
     chapters: [{
         title: "Chapter 1",
         text: "Text test"
@@ -27,6 +28,8 @@ const newFiction = {
         text: "Text test",
     }],
 }
+
+// db.create(newFiction);
 
 app.get("/fictions",  async (req, res) => {
     const fictions = await db.find();

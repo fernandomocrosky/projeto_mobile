@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     fictions = Provider.of<FictionRepository>(context);
     AuthService auth = Provider.of<AuthService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Fictions List"),

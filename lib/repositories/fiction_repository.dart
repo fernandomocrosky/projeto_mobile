@@ -8,38 +8,38 @@ import 'package:projeto_mobile/repositories/author_repository.dart';
 import 'package:http/http.dart' as http;
 
 class FictionRepository extends ChangeNotifier {
-  static final List<Fiction> _fictions = [
-    Fiction("title", "This is a fiction about...", 5.0,
-        "assets/images/default.jpg", AuthorRepository.authors[0], [
-      Chapter(1, "Chapter 1", "Once upon a time"),
-      Chapter(2, "Chapter 2", "Twice upon a time")
-    ]),
-    Fiction(
-      "title #2",
-      "This is a fiction about #2...",
-      9.1,
-      "assets/images/default.jpg",
-      AuthorRepository.authors[1],
-      [],
-    ),
-  ];
+  static final List<Fiction> _fictions = [];
 
-  List<Fiction> get fictions => getFictions() as List<Fiction>;
+  List<Fiction> get fictions => _fictions;
 
-  getFictions() async {
-    final response = await http.get(Uri.parse("localhost:3000/fictions"));
+  FictionRepository() {
+    _getFictions();
+  }
+
+  _getFictions() async {
+    final response = await http.get(Uri.parse("http://10.0.2.2:3000/fictions"));
     final List<Fiction> fictions = [];
 
     if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
+      final json = jsonDecode(response.body);
+      final List<dynamic> fictions = json;
 
-      body.map((item) {
-        fictions.add(Fiction(body["title"], body["description"], body["grade"],
-            body["image"], body["author"], body["chapters"]));
+      print(fictions);
+
+      fictions.forEach((fiction) {
+        _fictions.add(Fiction(
+          fiction["_id"],
+          fiction["title"],
+          fiction["description"],
+          fiction["grade"],
+          fiction["image"],
+          fiction["author"],
+          [],
+        ));
       });
     }
 
-    return fictions;
+    notifyListeners();
   }
 
   addChapter(Chapter chapter, Fiction fiction) {

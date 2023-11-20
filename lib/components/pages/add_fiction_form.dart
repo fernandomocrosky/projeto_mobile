@@ -20,8 +20,8 @@ class _AddFictionFormState extends State<AddFictionForm> {
   submitForm() {
     if (_form.currentState!.validate()) {
       List<Fiction> fictionList = fictions.fictions;
-      fictionList.add(Fiction(_title.text, _description.text, 9.1,
-          "assets/images/default.jpg", AuthorRepository.authors[0], []));
+      fictionList.add(Fiction("id", _title.text, _description.text, 9,
+          "assets/images/default.jpg", "Author 0", []));
       fictions.saveAll(fictionList);
       Navigator.of(context).pop();
     }
