@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projeto_mobile/Model/fiction.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 import 'package:projeto_mobile/repositories/fiction_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import "package:http_parser/http_parser.dart";
 
 class AddFictionForm extends StatefulWidget {
   const AddFictionForm({super.key});
@@ -16,14 +21,43 @@ class _AddFictionFormState extends State<AddFictionForm> {
   final _title = TextEditingController();
   final _description = TextEditingController();
   late FictionRepository fictions;
+  File? image;
 
-  submitForm() {
+  submitForm() async {
     if (_form.currentState!.validate()) {
-      List<Fiction> fictionList = fictions.fictions;
-      fictionList.add(Fiction("id", _title.text, _description.text, 9,
-          "assets/images/default.jpg", "Author 0", []));
-      fictions.saveAll(fictionList);
+      var request = http.MultipartRequest(
+          "POST", Uri.parse("http://10.0.2.2:3000/fictions"));
+      Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+      request.files.add(
+        http.MultipartFile(
+          "file",
+          image!.readAsBytes().asStream(),
+          image!.lengthSync(),
+          filename: "Image1",
+          contentType: MediaType("image", "jpeg"),
+        ),
+      );
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "title": _title.text,
+        "description": _description.text,
+        "author": "Author 0",
+      });
+
+      var res = await request.send();
       Navigator.of(context).pop();
+    }
+  }
+
+  selecionarImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    try {
+      XFile? file = await picker.pickImage(source: ImageSource.gallery);
+
+      if (file != null) setState(() => image = File(file.path));
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -77,6 +111,14 @@ class _AddFictionFormState extends State<AddFictionForm> {
                     }
                   },
                   keyboardType: TextInputType.text,
+                ),
+                SizedBox(height: 20),
+                ListTile(
+                  leading: Icon(Icons.attach_file),
+                  title: Text("Image File"),
+                  onTap: selecionarImage,
+                  trailing:
+                      image != null ? Image.file(File(image!.path)) : null,
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(

@@ -37,6 +37,15 @@ class FictionRepository extends ChangeNotifier {
           [],
         ));
       });
+
+      for (int i = 0; i < fictions.length; i++) {
+        for (int j = 0; j < fictions[i]["chapters"].length; j++) {
+          _fictions[i].chapters.add(Chapter(
+              fictions[i]["chapters"][j]["id"],
+              fictions[i]["chapters"][j]["title"],
+              fictions[i]["chapters"][j]["text"]));
+        }
+      }
     }
 
     notifyListeners();
