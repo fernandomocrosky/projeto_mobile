@@ -23,29 +23,12 @@ class _AddFictionFormState extends State<AddFictionForm> {
   late FictionRepository fictions;
   File? image;
 
-  submitForm() async {
+  submitForm() {
     if (_form.currentState!.validate()) {
-      var request = http.MultipartRequest(
-          "POST", Uri.parse("http://10.0.2.2:3000/fictions"));
-      Map<String, String> headers = {"Content-Type": "multipart/form-data"};
-      request.files.add(
-        http.MultipartFile(
-          "file",
-          image!.readAsBytes().asStream(),
-          image!.lengthSync(),
-          filename: "Image1",
-          contentType: MediaType("image", "jpeg"),
-        ),
-      );
-      request.headers.addAll(headers);
-      request.fields.addAll({
-        "title": _title.text,
-        "description": _description.text,
-        "author": "Author 0",
-      });
-
-      var res = await request.send();
-      Navigator.of(context).pop();
+      fictions.saveAll(image!, _title.text, _description.text);
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 

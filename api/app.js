@@ -4,7 +4,7 @@ const multer = require("multer");
 
 const mongoose = require("mongoose");
 mongoose
-    .connect("mongodb+srv://fernandobm:<P>@cluster0.amktk8o.mongodb.net/fictions?retryWrites=true&w=majority")
+    .connect("mongodb+srv://fernandobm:636322159a@cluster0.amktk8o.mongodb.net/fictions?retryWrites=true&w=majority")
     .then(() => app.emit("pronto"))
     .catch((e) => console.log(e))
 ;
@@ -66,7 +66,7 @@ app.post("/fictions", upload.single("file"), async (req, res) => {
         chapters: [],
     };
     let user = await db.create(newFiction);
-    return user;
+    res.send(user);
 })
 
 app.delete("/fictions/:id", async (req, res) => {

@@ -1,11 +1,13 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_mobile/Model/chapter.dart';
 import 'package:projeto_mobile/Model/fiction.dart';
 import 'package:projeto_mobile/repositories/author_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class FictionRepository extends ChangeNotifier {
   static final List<Fiction> _fictions = [];
@@ -25,7 +27,10 @@ class FictionRepository extends ChangeNotifier {
       final List<dynamic> fictions = json;
 
       print(fictions);
-
+      final int length = _fictions.length;
+      for (int i = 0; i < length; i++) {
+        _fictions.removeAt(0);
+      }
       fictions.forEach((fiction) {
         _fictions.add(Fiction(
           fiction["_id"],
@@ -47,7 +52,6 @@ class FictionRepository extends ChangeNotifier {
         }
       }
     }
-
     notifyListeners();
   }
 
@@ -61,11 +65,30 @@ class FictionRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveAll(List<Fiction> fictions) {
-    fictions.forEach((fiction) {
-      if (!_fictions.contains(fiction)) _fictions.add(fiction);
+  saveAll(File image, String title, String description) async {
+    var request = http.MultipartRequest(
+        "POST", Uri.parse("http://10.0.2.2:3000/fictions"));
+    Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+    request.files.add(
+      http.MultipartFile(
+        "file",
+        image.readAsBytes().asStream(),
+        image.lengthSync(),
+        filename: "Image1",
+        contentType: MediaType("image", "jpeg"),
+      ),
+    );
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      "title": title,
+      "description": description,
+      "author": "Author 0",
     });
-    notifyListeners();
+
+    var res = await request.send();
+    if (res.statusCode == 200) {
+      _getFictions();
+    }
   }
 
   remove(Fiction fiction) {
