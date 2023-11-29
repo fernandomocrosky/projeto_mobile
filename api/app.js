@@ -60,7 +60,7 @@ app.post("/fictions", upload.single("file"), async (req, res) => {
     const newFiction = {
         title: req.body.title,
         description: req.body.description,
-        image: `http://10.0.2.2:3000/images/${fileName}`,
+        image: `https://projeto-mobile-d-utf.onrender.com/fictions/images/${fileName}`,
         author: "Author 0",
         grade: 0.0,
         chapters: [],

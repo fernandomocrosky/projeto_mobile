@@ -19,7 +19,8 @@ class FictionRepository extends ChangeNotifier {
   }
 
   _getFictions() async {
-    final response = await http.get(Uri.parse("http://10.0.2.2:3000/fictions"));
+    final response = await http
+        .get(Uri.parse("https://projeto-mobile-d-utf.onrender.com/fictions"));
     final List<Fiction> fictions = [];
 
     if (response.statusCode == 200) {
@@ -66,8 +67,8 @@ class FictionRepository extends ChangeNotifier {
   }
 
   saveAll(File image, String title, String description) async {
-    var request = http.MultipartRequest(
-        "POST", Uri.parse("http://10.0.2.2:3000/fictions"));
+    var request = http.MultipartRequest("POST",
+        Uri.parse("https://projeto-mobile-d-utf.onrender.com/fictions"));
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     request.files.add(
       http.MultipartFile(
