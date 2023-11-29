@@ -60,13 +60,13 @@ app.post("/fictions", upload.single("file"), async (req, res) => {
     const newFiction = {
         title: req.body.title,
         description: req.body.description,
-        image: `https://projeto-mobile-d-utf.onrender.com/fictions/images/${fileName}`,
+        image: `https://projeto-mobile-d-utf.onrender.com/images/${fileName}`,
         author: "Author 0",
         grade: 0.0,
         chapters: [],
     };
     let user = await db.create(newFiction);
-    res.send(user);
+    res.send(user)
 })
 
 app.delete("/fictions/:id", async (req, res) => {
