@@ -1,10 +1,12 @@
+// Install dotenv and select the connection db string 
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const multer = require("multer");
 
 const mongoose = require("mongoose");
 mongoose
-    .connect("mongodb+srv://fernandobm:636322159a@cluster0.amktk8o.mongodb.net/fictions?retryWrites=true&w=majority")
+    .connect(process.env.DBSTRING)
     .then(() => app.emit("pronto"))
     .catch((e) => console.log(e))
 ;
